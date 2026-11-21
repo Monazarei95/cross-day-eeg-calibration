@@ -1,0 +1,4 @@
+pilot_config = "bci2a_pilot.toml"
+encoder_config = "ssl_screen.toml"
+projection_config = "projection_control.toml"
+draw_seed = 81573

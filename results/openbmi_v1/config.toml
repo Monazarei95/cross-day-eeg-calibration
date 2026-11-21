@@ -1,0 +1,16 @@
+participants = 54
+group_size = 9
+classes = [1, 2]
+draws = 5
+per_class = 10
+draw_seed = 81573
+projection_seed = 119273
+random_projections = 16
+rank_removed = 3
+eye_codes = [71, 72, 73]
+window = [1.75, 3.75]
+padding = 0.25
+band = [8.0, 30.0]
+rate = 125
+encoder_config = "ssl_screen.toml"
+mat_variable = "EEG_MI_train"

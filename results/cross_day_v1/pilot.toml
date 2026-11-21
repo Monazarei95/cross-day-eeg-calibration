@@ -1,0 +1,21 @@
+# Development protocol. Only the official T recordings are read.
+seed = 29108
+participants = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+labels_per_class = 10
+calibration_draws = 5
+covariance_shrinkage = 0.10
+regression_ridge = 0.001
+calibration_folds = 5
+calibration_gap_seconds = 0.5
+filter_context_seconds = 0.25
+donors_per_class = 2
+ocular_load_quantile = 0.75
+perturbation_quantile = 0.95
+
+[windows]
+cue = [0.0, 2.0]
+late = [1.75, 3.75]
+
+[bands]
+broad = [1.0, 40.0]
+motor = [8.0, 30.0]

@@ -1,0 +1,121 @@
+{
+  "participants": [
+    {
+      "participant": 7,
+      "arm": "uniform",
+      "accuracy": 0.37916666666666665,
+      "real_flip": 0.18151041666666667,
+      "sham_flip": 0.14895833333333333,
+      "excess_flip": 0.03255208333333334
+    },
+    {
+      "participant": 7,
+      "arm": "native",
+      "accuracy": 0.39166666666666666,
+      "real_flip": 0.18697916666666667,
+      "sham_flip": 0.14661458333333333,
+      "excess_flip": 0.04036458333333334
+    },
+    {
+      "participant": 7,
+      "arm": "shuffled",
+      "accuracy": 0.4041666666666667,
+      "real_flip": 0.16979166666666667,
+      "sham_flip": 0.14192708333333334,
+      "excess_flip": 0.02786458333333333
+    },
+    {
+      "participant": 7,
+      "arm": "ssp",
+      "accuracy": 0.48124999999999996
+    },
+    {
+      "participant": 8,
+      "arm": "uniform",
+      "accuracy": 0.48749999999999993,
+      "real_flip": 0.19192708333333333,
+      "sham_flip": 0.16328125,
+      "excess_flip": 0.028645833333333343
+    },
+    {
+      "participant": 8,
+      "arm": "native",
+      "accuracy": 0.48750000000000004,
+      "real_flip": 0.19088541666666667,
+      "sham_flip": 0.17838541666666666,
+      "excess_flip": 0.012500000000000011
+    },
+    {
+      "participant": 8,
+      "arm": "shuffled",
+      "accuracy": 0.4854166666666667,
+      "real_flip": 0.16822916666666668,
+      "sham_flip": 0.17916666666666667,
+      "excess_flip": -0.010937499999999989
+    },
+    {
+      "participant": 8,
+      "arm": "ssp",
+      "accuracy": 0.56875
+    },
+    {
+      "participant": 9,
+      "arm": "uniform",
+      "accuracy": 0.29791666666666666,
+      "real_flip": 0.1015625,
+      "sham_flip": 0.08932291666666667,
+      "excess_flip": 0.012239583333333331
+    },
+    {
+      "participant": 9,
+      "arm": "native",
+      "accuracy": 0.3208333333333333,
+      "real_flip": 0.11692708333333333,
+      "sham_flip": 0.10807291666666667,
+      "excess_flip": 0.008854166666666663
+    },
+    {
+      "participant": 9,
+      "arm": "shuffled",
+      "accuracy": 0.30833333333333335,
+      "real_flip": 0.09947916666666666,
+      "sham_flip": 0.10494791666666667,
+      "excess_flip": -0.005468750000000008
+    },
+    {
+      "participant": 9,
+      "arm": "ssp",
+      "accuracy": 0.34375
+    }
+  ],
+  "means": {
+    "uniform": {
+      "accuracy": 0.38819444444444445,
+      "real_flip": 0.15833333333333333,
+      "sham_flip": 0.1338541666666667,
+      "excess_flip": 0.024479166666666673
+    },
+    "native": {
+      "accuracy": 0.39999999999999997,
+      "real_flip": 0.16493055555555555,
+      "sham_flip": 0.1443576388888889,
+      "excess_flip": 0.020572916666666673
+    },
+    "shuffled": {
+      "accuracy": 0.3993055555555556,
+      "real_flip": 0.14583333333333334,
+      "sham_flip": 0.14201388888888888,
+      "excess_flip": 0.0038194444444444448
+    },
+    "ssp": {
+      "accuracy": 0.4645833333333333
+    }
+  },
+  "native_minus_uniform": {
+    "accuracy": 0.011805555555555514,
+    "real_flip": 0.0065972222222222265,
+    "sham_flip": 0.010503472222222199,
+    "excess_flip": -0.00390625
+  },
+  "advance": false
+}

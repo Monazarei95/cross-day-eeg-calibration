@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ocular-mi"
+version = "0.1.0"
+authors = [{name = "Mona"}]
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "mne==1.13.2",
+    "numpy==2.4.3",
+    "scipy==1.17.1",
+    "scikit-learn==1.8.0",
+    "threadpoolctl==3.6.0",
+]
+
+[project.optional-dependencies]
+ssl = ["torch==2.7.1"]
+dev = ["pytest==9.1.1", "ruff==0.16.10"]
+
+[project.scripts]
+ocular-mi = "ocular_mi.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

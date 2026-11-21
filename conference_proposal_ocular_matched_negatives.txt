@@ -1,0 +1,97 @@
+Do Motor-Imagery Decoders Look With Their Eyes?
+Self-supervised EEG pretraining conditioned on recorded eye activity
+
+ORIGINAL CONFERENCE PAPER PROPOSAL AND DEVELOPMENT HISTORY
+
+Completed study: see cross_day_paper.md for the paper draft and cross_day_gain.png for the participant-level figure. The locked day-two test of eye-calibrated input projection achieved +4.24 percentage points over raw EEG with the frozen self-supervised encoder (95% CI +1.22 to +7.27). The original EOG-matched-negative training idea below did not pass its development criterion.
+
+Can EEG-only motor-imagery decoders become less sensitive to eye activity while preserving four-class accuracy on a later recording day? The proposed method uses the EOG recorded during imagery to construct the contrastive learning task. BCI Competition IV 2a is the main study. BCI IV 2b provides a replication with a smaller montage and purpose-specific eye calibration. Eye-BCI provides an independent optical gaze check if the synchronized files are usable.
+
+The original proposal targeted fewer prediction changes under a measured ocular perturbation at comparable accuracy on next-day EEG. A three-percentage-point accuracy gain was a secondary outcome in that proposal.
+
+DEVELOPMENT DECISION, 19 NOVEMBER 2026
+
+The first paired SSL screen used six source participants, three target participants, one seed and development sessions only. Balanced accuracy averaged 40.00% with native eye matching, 39.93% with shuffled eye recordings and 38.82% with uniform sampling. Under measured eye-trace exchanges, native matching produced more prediction flips than uniform sampling (16.49% versus 15.83%). This configuration missed the prespecified advancement criterion. The eye-informed projection baseline reached 46.46% on the same target splits.
+
+The strongest observed lead is the earlier nine-person gain from calibration-derived signal-space projection (SSP). The next development question is whether the choice of removed directions explains that gain. Compare the eye-calibrated projection with repeated random projections removing the same number of dimensions and with unprojected EEG, on identical labeled draws. For an SSL extension, apply those same three transforms to the inputs of one frozen uniform-negative encoder and refit its probe under each condition. Compare with classical SSP on identical trials. A result specific to the measured subspace would motivate testing whether first-day eye calibration also helps EEG-only decoding the next day. Record the decision and splits before running. The original contrastive matching hypothesis and controls are documented below.
+
+The matched-rank development comparison has now been completed. On the nine-person classical decoder, the calibrated projection reached 48.15% balanced accuracy, versus 44.69% averaged over 16 random projections and 44.45% on unmodified EEG. All nine participants exceeded both of their own control values. For the frozen self-supervised encoder on its three unseen participants, the corresponding results were 44.24%, 40.01% and 40.72%, with improvements for two participants. These are within-day results. The next question is whether the gain persists when the calibration and decoding sessions occur on different days. See runs/projection_control_v1/summary.json.
+
+1. MAIN METHOD
+
+Each source trial has simultaneous EEG X_i and EOG e_i. Compute a low-dimensional EOG descriptor in the same cue-relative window as the EEG. Start with horizontal and vertical contrasts from the documented montage, their signed deflections relative to fixation, and horizontal and vertical movement magnitudes in fixed time bins. Robustly scale descriptors using source data. Check the contrasts and feature reliability using eye-calibration segments. A primary descriptor can be calculated directly from EOG. The fitted EOG-to-EEG calibration map is reserved for auditing, baseline correction and the secondary injection ablation.
+
+Create the positive pair using two independently cropped and mildly time-masked EEG views of the same fixed analysis window. Use crops with held-out source evidence of similar EOG descriptors so the conditioning variable meaningfully describes both views. Avoid aligning identical sampled EEG over the entire view. The trial descriptor is obtained before view construction. Use the same view sampling rule in all training arms.
+
+When choosing negatives for anchor i, restrict candidates to different trials in the same source recording session. Within that pool, draw a fixed number with probability proportional to exp(-d(i,j)^2 / (2h^2)), where d is the distance between the scaled native EOG descriptors. Mix the distribution with a fixed uniform component so sparse neighborhoods do not reduce the effective number of negatives to a few recurring trials. Compare directly with uniform sampling from the identical session pool and with EOG descriptors permuted among trials within each session. Match the trial crops, candidate sets, encoder, count of negatives, training steps and seed schedule. Inspect matching strength by reporting weighted descriptor distances and effective sample size. Use only inner source data for choosing feature and bandwidth settings.
+
+If two trials with similar eye activity are compared against one another, that shared activity is less informative for telling them apart. Conditioning on measured EOG can also attenuate useful class information when gaze and cue direction are linked. Different trials can share an imagery class. Inspect class concentration in sampled neighborhoods as an offline diagnostic and verify class recall on untouched trials. Imagery labels are used for the downstream probe and labeled baselines. EOG descriptors guide pretraining sample selection. Inference receives EEG alone.
+
+2. DECISIVE CONTROLS
+
+The key comparison is native EOG conditioning against random negatives drawn from the same recording session. A shuffled-descriptor control tests whether the real EEG–EOG pairing matters. Use one optional cross-session sampling arm to quantify the effect of holding session identity fixed. Prioritize the within-session comparison if compute is limited.
+
+Keep the earlier measured-trace injection experiment as a secondary mechanism ablation. Cross two independently augmented trial residuals with two eye traces, forming a 2x2 group. Apply independent crops or masks to the residuals before adding the fixed eye traces. For anchor R1 + Ma and positive R1 + Mb, compare additional negatives R2 + Ma and R2 + Mb using identical tensors and equal weights across arms. The residual is an estimate and can retain native ocular activity. In a fixed session all injected traces lie in the column space of M, so signal-space projection (SSP) is a direct control for this experiment.
+
+Required comparators are regularized tangent-space features plus logistic regression, FBCSP, the compact EEG encoder trained on the same small label budget, and the matched-compute uniform-negative SSL encoder. Add uniform-negative SSL with ocular SSP fitted on the participant's available calibration recording. SSP takes EEG alone during inference after its subspace has been estimated. Include Schloegl-style EOG regression as a sensor-assisted reference and report what data were used to fit each correction. Fit target-person SSP and regression coefficients using the first-session eye recording. For the same-day audit, distinguish a map fitted to dedicated calibration from a fit to task trials.
+
+Compare against a compact model trained with labeled source participants and Euclidean alignment, and a covariance transfer baseline with Riemannian re-centering. Any target alignment uses permitted day-one data. An external pretrained EEG encoder with a linear probe is an additional comparison if its pretraining exposure and montage can be verified. Report label and sensor access for each method. The label-free scenario tests pretraining on source archives without imagery annotations. The labeled-source comparison tests how much that restriction costs when annotations are available.
+
+3. DEVELOPMENT AUDIT AND DECISION
+
+Run the CPU audit first on development splits. Compare EEG features with an EOG-only classifier as a diagnostic, in equal-duration cue-onset and late imagery windows. EOG-only class prediction demonstrates a possible shortcut. The paired EEG perturbation test is needed to establish that an EEG decoder is sensitive to it.
+
+Compare unmodified predictions with EOG regression and SSP, and analyze errors by measured EOG load and event 1023. Event 1023 is an expert artifact flag and may include artifacts beyond eye activity. Report coverage and hold trial inclusion fixed between methods. Keep all valid trials in the main analysis and report the expert-flagged subset separately. Use broadband and 8–30 Hz input. Check that late-window filtering cannot import cue-onset samples. Validate the ocular regression map on separate contiguous calibration segments with time-shifted EOG controls.
+
+Use the development audit to verify that ocular sensitivity survives a strong conventional pipeline and is large enough to study. The change in accuracy after regression or SSP is an empirical reference. It does not bound what SSL could achieve. Run a small matched-versus-uniform SSL comparison after this audit. Advance to the full study only if ocular sensitivity improves consistently on development participants and unchanged-recording accuracy stays within the prespecified tolerance. If cleaning already accounts for the effect, revisit the method before using evaluation labels. The first gate needs CPU compute and the downloaded IV 2a files. The small training comparison and full study use a compact encoder. Training time remains unmeasured.
+
+4. LOCKED EVALUATION AND POSITIVE RESULT
+
+On BCI IV 2a, pretrain on eight people, fit the frozen encoder's classification head using ten labels per class from the ninth person's first session, and score that person's second session. Rotate the held-out participant. Use paired stratified calibration draws. Set hyperparameters in inner source folds. Each outer test participant and their second-session labels stay outside model selection for that fold. Freeze the protocol before reviewing outer-fold results and split by trial before any cropping. Primary window and bandwidth are fixed before scoring. Cue-onset and motor-band sensitivity analyses use the same folds. No target day-two statistics enter the deployed EEG model.
+
+Primary robustness endpoint is the reduction, relative to uniform-negative SSL, in the excess prediction flip rate on paired held-out EEG. For each trial, compare the frozen model's prediction on original EEG with its predictions after two modifications. The measured perturbation adds a scaled M(e_j - e_i), where e_i is the native EOG and e_j is a randomized, time-aligned donor from the same test session. Bound strengths using limits fixed on development recordings. The sham maps the same EOG difference through a fixed spatially scrambled map and matches the added EEG energy of each measured perturbation. Use the same donor draws and shams for every model. Fit the audit map on the held-out session's dedicated eye calibration for offline waveform construction. The SSP baseline uses a map estimated independently from the first session. Report both raw flip rates and their difference, with a time-shift control and removal of the estimated native component as supporting checks. Report class-directed donor logit changes as mechanism evidence. This is sensitivity to an estimated ocular perturbation under a linear model. Its validity depends on calibration fit and realistic strengths, checked on development recordings.
+
+The robustness finding counts as a positive outcome only if the original next-day balanced accuracy also meets its prespecified preservation margin against uniform-negative SSL. Proposed planning margin is 2 percentage points of allowable loss, to be justified and frozen before final scoring. Require an interval supporting lower excess flip rate and a lower bound for the accuracy difference above minus the margin. A wider interval is inconclusive. Report the difference against the strongest prespecified EEG-only baseline, per-class recall and all participant-level estimates. An average gain of at least three accuracy points with an interval supporting improvement is a secondary success. A reduction in flip rate from a weak or nearly constant decoder cannot satisfy the intended claim.
+
+Trials, donor draws, probe draws and random seeds provide repeated observations within participants. Average repeated contrasts within participant before computing paired confidence intervals and show sensitivity to each participant. With nine participants, a true three-point mean gain and a four-to-five-point paired SD give roughly 35–51% power under the review's paired t-test assumptions. Recalculate planning power from development variance for the robustness and preservation margins. Avoid pooling four-class and two-class accuracy or treating sessions as new participants.
+
+5. REPLICATION AND GAZE DIRECTION
+
+BCI IV 2b has two imagery classes, three bipolar EEG channels, three EOG channels and five sessions per participant. The official documentation confirms separately marked horizontal movement, vertical movement, rotation and blink calibration. Sessions B0102T and B0504E lack the calibration block. Use its two non-feedback screening sessions for the main replication to match the 2a task setting. Prespecify eligibility for the calibration-dependent audit, report missing sessions, and use the native-EOG training procedure and a new encoder fitted to the 2b montage. Keep feedback sessions as a separate sensitivity analysis. Confirm participant independence before any pooled participant-count claim. Report each dataset separately regardless.
+
+Eye-BCI contains 40 left/right imagery trials per session and 17 of 31 participants return for a later session. Use optical gaze as a validation signal only. Define signed horizontal gaze displacement relative to pre-cue fixation, multiply by cue direction so positive values mean looking toward the cue, and prespecify tracker-validity and neutral-gaze rules. Use a continuous score to avoid relying on small toward/away cells. Validate timing and gaze coverage on development files first. Compare whether gaze alignment with the cue predicts trial correctness more strongly in the uniform-negative model, with a model-by-gaze interaction and participant-level uncertainty. Account for participant, session and imagery class. Report the fitted direction effect and coverage, plus overall balanced accuracy. A common-channel encoder transferred from 2a is interpretable only with a usable external binary probe and sufficient gaze variation. The rectangle cue remains visible throughout imagery, so the gaze association can also reflect visual or attentional effects.
+
+The original multimodal release is on Synapse. Anonymous API access previously returned HTTP 403. NEMAR lists EEG mirrors nm000235 and nm000265. Availability of synchronized optical gaze in those mirrors has yet to be verified. The optical replication is conditional on access and data quality. It is independent corroboration of the BCI IV results.
+
+6. NOVELTY AND VERIFIED PRECEDENTS
+
+Candidate contribution is native, trial-level EOG conditioning in label-free EEG contrastive learning, with an identical-session randomized ablation, an independent calibration-based perturbation audit, and directional optical corroboration if feasible. Targeted searches found adjacent EEG work and no exact match for this design. Conditioning negatives is established. The proposed radial-kernel sampler is inspired by conditional contrastive learning and CCL-K without claiming to reproduce the full kernel conditional embedding estimator. The two Graz datasets link arrow direction to imagery class, so the evidence addresses ocular sensitivity and cannot individually isolate all cue-related neural signals from imagery.
+
+- Tsai et al., Conditional Contrastive Learning with Kernel, ICLR 2022. Main methodological precedent for conditioning on a measured variable.
+  https://openreview.net/pdf?id=AAJLBoGt0XM
+- Robinson et al., NeurIPS 2021. General precedent for feature suppression, conditional analysis and implicit feature modification.
+  https://proceedings.neurips.cc/paper/2021/hash/27934a1f19d678a1377c257b9a780e80-Abstract.html
+- Cheng et al., Subject-Aware Contrastive Learning for Biosignals, 2020. Precedent for handling subject identity during SSL.
+  https://arxiv.org/abs/2007.04871
+- Schloegl et al., Clinical Neurophysiology 2007. Multichannel EOG regression used as a sensor-assisted comparator.
+  https://doi.org/10.1016/j.clinph.2006.09.003
+- Kang et al., Journal of Neural Engineering 2024, manuscript deposited in 2026. ICA rejection produced limited or inconsistent decoding gains in its protocols.
+  https://arxiv.org/abs/2605.06018
+- Ludwig et al., EEG-D3, 2025 preprint. Related analysis of blink timing, cue responses and hidden overfitting in motor paradigms.
+  https://arxiv.org/abs/2512.13806
+- Trocellier et al., Frontiers in Neuroergonomics 2026. Direct evidence that visual cues can bias deep MI decoders.
+  https://doi.org/10.3389/fnrgo.2026.1804143
+- Xie et al., Brain Sciences 2026. Ocular artifact removal already evaluated on BCI IV 2a. Their ICA comparator scored higher on mean accuracy than the proposed denoiser in that protocol.
+  https://doi.org/10.3390/brainsci16101124
+- Hajhassani et al., EUSIPCO 2026. Artifact handling effects vary across participants and datasets.
+  https://eurasip.org/Proceedings/Eusipco/Eusipco2026/pdfs/0001601.pdf
+- Manifold-SimCLR, Neurocomputing 2026. Recent self-supervised MI contrastive-learning comparator using covariance augmentation.
+  https://doi.org/10.1016/j.neucom.2026.134096
+- Guttmann-Flury et al., Scientific Data 2025. Original Eye-BCI multimodal data and protocol.
+  https://doi.org/10.1038/s41597-025-04861-9
+  https://doi.org/10.7303/syn64005218
+  https://www.nemar.org/dataset/nm000235
+  https://www.nemar.org/dataset/nm000265
+- Official BCI Competition IV dataset documentation.
+  https://www.bbci.de/competition/iv/desc_2a.pdf
+  https://www.bbci.de/competition/iv/desc_2b.pdf

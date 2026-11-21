@@ -1,0 +1,4 @@
+pilot_config = "bci2a_pilot.toml"
+random_projections = 16
+projection_seed = 119273
+uniform_checkpoint_sha256 = "0c507d8304c49f297ffef57859af4b0c58df99ba7d40a276567be9a0737334e9"

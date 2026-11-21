@@ -1,0 +1,321 @@
+{
+  "protocol": "BCI IV 2a T sessions, leave-one-run-out development",
+  "calibration_r2": {
+    "participants": 9,
+    "mean": 0.5873227804698118,
+    "ci95": [
+      0.451258275825936,
+      0.7233872851136876
+    ]
+  },
+  "calibration_r2_minus_shifted": {
+    "participants": 9,
+    "mean": 0.5908526838124426,
+    "ci95": [
+      0.4532953127250833,
+      0.7284100548998019
+    ]
+  },
+  "balanced_accuracy": [
+    {
+      "window": "cue",
+      "band": "broad",
+      "model": "eeg_only",
+      "participants": 9,
+      "mean": 0.4376543209876543,
+      "ci95": [
+        0.3568383256677077,
+        0.5184703163076009
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "broad",
+      "model": "eog_regression",
+      "participants": 9,
+      "mean": 0.43865740740740744,
+      "ci95": [
+        0.3560368692817906,
+        0.5212779455330243
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "broad",
+      "model": "ocular_ssp",
+      "participants": 9,
+      "mean": 0.4779320987654321,
+      "ci95": [
+        0.3843683201427087,
+        0.5714958773881554
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "eog",
+      "model": "eog_only_diagnostic",
+      "participants": 9,
+      "mean": 0.4764660493827161,
+      "ci95": [
+        0.35947873213386483,
+        0.5934533666315673
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "motor",
+      "model": "eeg_only",
+      "participants": 9,
+      "mean": 0.45501543209876544,
+      "ci95": [
+        0.36867680881718257,
+        0.5413540553803483
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "motor",
+      "model": "eog_regression",
+      "participants": 9,
+      "mean": 0.45640432098765427,
+      "ci95": [
+        0.36599744780725796,
+        0.5468111941680506
+      ]
+    },
+    {
+      "window": "cue",
+      "band": "motor",
+      "model": "ocular_ssp",
+      "participants": 9,
+      "mean": 0.5035493827160493,
+      "ci95": [
+        0.3982534112090579,
+        0.6088453542230408
+      ]
+    },
+    {
+      "window": "late",
+      "band": "broad",
+      "model": "eeg_only",
+      "participants": 9,
+      "mean": 0.41412037037037036,
+      "ci95": [
+        0.32920758840033076,
+        0.49903315234040996
+      ]
+    },
+    {
+      "window": "late",
+      "band": "broad",
+      "model": "eog_regression",
+      "participants": 9,
+      "mean": 0.4165123456790123,
+      "ci95": [
+        0.32854554728329616,
+        0.5044791440747285
+      ]
+    },
+    {
+      "window": "late",
+      "band": "broad",
+      "model": "ocular_ssp",
+      "participants": 9,
+      "mean": 0.4496141975308642,
+      "ci95": [
+        0.3490755320739153,
+        0.5501528629878131
+      ]
+    },
+    {
+      "window": "late",
+      "band": "eog",
+      "model": "eog_only_diagnostic",
+      "participants": 9,
+      "mean": 0.27908950617283945,
+      "ci95": [
+        0.25272261738673474,
+        0.30545639495894417
+      ]
+    },
+    {
+      "window": "late",
+      "band": "motor",
+      "model": "eeg_only",
+      "participants": 9,
+      "mean": 0.44452160493827164,
+      "ci95": [
+        0.34589960287402016,
+        0.5431436070025231
+      ]
+    },
+    {
+      "window": "late",
+      "band": "motor",
+      "model": "eog_regression",
+      "participants": 9,
+      "mean": 0.4433641975308642,
+      "ci95": [
+        0.35182492875837723,
+        0.5349034663033512
+      ]
+    },
+    {
+      "window": "late",
+      "band": "motor",
+      "model": "ocular_ssp",
+      "participants": 9,
+      "mean": 0.48148148148148145,
+      "ci95": [
+        0.37217647336358217,
+        0.5907864895993807
+      ]
+    }
+  ],
+  "paired_differences": [
+    {
+      "window": "cue",
+      "band": "broad",
+      "ocular_minus_sham_flips": {
+        "participants": 9,
+        "mean": -0.07591628086419754,
+        "ci95": [
+          -0.0973685202980572,
+          -0.05446404143033787
+        ]
+      },
+      "high_minus_low_eog_accuracy": {
+        "participants": 9,
+        "mean": -0.030040079722457473,
+        "ci95": [
+          -0.04971760777170055,
+          -0.010362551673214399
+        ]
+      },
+      "regression_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.0010030864197530704,
+        "ci95": [
+          -0.008327344151183587,
+          0.010333516990689729
+        ]
+      },
+      "ssp_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.040277777777777746,
+        "ci95": [
+          0.02194706817204415,
+          0.05860848738351134
+        ]
+      }
+    },
+    {
+      "window": "cue",
+      "band": "motor",
+      "ocular_minus_sham_flips": {
+        "participants": 9,
+        "mean": -0.03480902777777777,
+        "ci95": [
+          -0.05930781486865172,
+          -0.010310240686903827
+        ]
+      },
+      "high_minus_low_eog_accuracy": {
+        "participants": 9,
+        "mean": -0.00929806720697341,
+        "ci95": [
+          -0.04899198434087771,
+          0.03039584992693089
+        ]
+      },
+      "regression_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.0013888888888888716,
+        "ci95": [
+          -0.00875677014422527,
+          0.011534547922003013
+        ]
+      },
+      "ssp_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.048533950617283945,
+        "ci95": [
+          0.021095987141025417,
+          0.07597191409354248
+        ]
+      }
+    },
+    {
+      "window": "late",
+      "band": "broad",
+      "ocular_minus_sham_flips": {
+        "participants": 9,
+        "mean": -0.07887731481481482,
+        "ci95": [
+          -0.1089701534755001,
+          -0.048784476154129536
+        ]
+      },
+      "high_minus_low_eog_accuracy": {
+        "participants": 9,
+        "mean": 0.00807853628357794,
+        "ci95": [
+          -0.0068743838313583255,
+          0.023031456398514207
+        ]
+      },
+      "regression_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.0023919753086419668,
+        "ci95": [
+          -0.005624368871211725,
+          0.01040831948849566
+        ]
+      },
+      "ssp_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.035493827160493825,
+        "ci95": [
+          0.01029282344835351,
+          0.06069483087263414
+        ]
+      }
+    },
+    {
+      "window": "late",
+      "band": "motor",
+      "ocular_minus_sham_flips": {
+        "participants": 9,
+        "mean": -0.04303626543209876,
+        "ci95": [
+          -0.06636647694605571,
+          -0.019706053918141807
+        ]
+      },
+      "high_minus_low_eog_accuracy": {
+        "participants": 9,
+        "mean": -0.013988975417029759,
+        "ci95": [
+          -0.04899997811403333,
+          0.021022027279973814
+        ]
+      },
+      "regression_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": -0.0011574074074074095,
+        "ci95": [
+          -0.009867467336537717,
+          0.007552652521722899
+        ]
+      },
+      "ssp_minus_eeg_accuracy": {
+        "participants": 9,
+        "mean": 0.03695987654320985,
+        "ci95": [
+          0.013459489926250411,
+          0.06046026316016928
+        ]
+      }
+    }
+  ]
+}

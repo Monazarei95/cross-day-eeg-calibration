@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Explore how first-day eye calibration affected next-day decoding of imagined movements in nine people."
+    />
+    <title>Reading imagined movement · EEG study</title>
+    <link rel="stylesheet" href="./study.css" />
+    <script defer src="./scores.js"></script>
+    <script defer src="./study.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to study</a>
+    <header class="mast">
+      <div class="wrap top">
+        <a class="brand" href="#main"
+          ><span class="mark" aria-hidden="true">∿</span> Motor imagery study</a
+        >
+        <nav aria-label="Study navigation">
+          <a href="#experiment">Experiment</a><a href="#results">Results</a
+          ><a href="#follow-up">Follow-up</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <section class="intro" aria-labelledby="title">
+        <div>
+          <p class="source">BCI Competition IV · Dataset 2a</p>
+          <h1 id="title">Reading imagined movement.</h1>
+          <p class="lead">
+            Can a short eye-movement recording help a computer recognize which
+            movement someone imagines the next day?
+          </p>
+          <a class="button" href="#results"
+            >Explore the results <span aria-hidden="true">↓</span></a
+          >
+        </div>
+        <aside class="finding">
+          <h2>Effect of first-day eye calibration</h2>
+          <p class="big">+4.24 <span>points</span></p>
+          <p>
+            Average gain in next-day balanced accuracy with the self-supervised
+            model.
+          </p>
+          <div class="pair">
+            <span>Uncorrected EEG</span><strong>37.04%</strong
+            ><span>Eye-calibrated EEG</span><strong>41.29%</strong>
+          </div>
+          <p class="interval">
+            95% confidence interval for the gain<br /><strong
+              >+1.22 to +7.27 percentage points</strong
+            >
+          </p>
+        </aside>
+      </section>
+      <section id="experiment" class="section">
+        <h2>How the experiment worked</h2>
+        <div class="steps">
+          <article>
+            <h3>Imagine a movement</h3>
+            <p>
+              Nine people imagined moving their left hand, right hand, both feet
+              or tongue. A cap recorded electrical activity from the scalp,
+              called EEG.
+            </p>
+          </article>
+          <article>
+            <h3>Learn on the first day</h3>
+            <p>
+              A model learned patterns from eight other people’s unlabeled
+              recordings. For the ninth person, a separate eye-movement
+              recording calibrated the signal, and ten labeled examples per
+              movement taught the model the four names.
+            </p>
+          </article>
+          <article>
+            <h3>Return on another day</h3>
+            <p>
+              The same person returned and the model used scalp EEG alone. Each
+              person took a turn as the test participant. Predictions for all
+              2,592 trials were fixed before scoring.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="results" class="section">
+        <h2>Who benefited from calibration?</h2>
+        <p class="section-intro">
+          Compare each person with themselves. Balanced accuracy gives each of
+          the four movements equal weight. Guessing uniformly would average 25%.
+        </p>
+        <noscript
+          ><p>
+            Enable JavaScript to explore individual results. Eight of nine
+            participants improved with the self-supervised model and eye
+            calibration.
+          </p></noscript
+        >
+        <div id="explorer" hidden>
+          <div class="controls">
+            <label
+              >Decoding model<select id="model">
+                <option value="frozen_ssl">Self-supervised model</option>
+                <option value="classical">Classical model</option>
+              </select></label
+            >
+            <label
+              >Compare eye calibration with<select id="baseline">
+                <option value="raw">Uncorrected EEG</option>
+                <option value="pca">Scalp-only calibration</option>
+                <option value="random">Random correction</option>
+              </select></label
+            >
+          </div>
+          <p id="definition" class="note"></p>
+          <div class="plot-layout">
+            <div class="plot">
+              <h3>Change for each participant</h3>
+              <p class="units">
+                Percentage points · right of zero means higher accuracy
+              </p>
+              <div id="bars" aria-hidden="true"></div>
+              <div class="axis" aria-hidden="true">
+                <span>−12</span><span>0</span><span>+12</span>
+              </div>
+            </div>
+            <div class="readout" aria-live="polite" aria-atomic="true">
+              <h3>Average difference</h3>
+              <strong id="difference"></strong><span>percentage points</span>
+              <p id="precision"></p>
+              <p id="improved"></p>
+              <p id="comparison"></p>
+            </div>
+          </div>
+          <details id="numbers">
+            <summary>View exact scores for all nine people</summary>
+            <div class="table-wrap">
+              <table>
+                <caption id="caption"></caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Person</th>
+                    <th scope="col" id="base-heading"></th>
+                    <th scope="col">Eye calibration</th>
+                    <th scope="col">Change (points)</th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+            <button id="download" type="button">
+              Download this comparison (CSV)
+            </button>
+          </details>
+        </div>
+      </section>
+      <section class="section bottom" id="follow-up">
+        <div>
+          <h2>What can we conclude?</h2>
+          <p>
+            Eight of nine people improved with eye calibration in the main
+            comparison. The result met the target set before scoring. With nine
+            people, the size of the benefit is still uncertain.
+          </p>
+          <p>
+            Scalp-only calibration reached 40.08% with the same model. The extra
+            1.21 points from eye electrodes had a 95% interval from −0.24 to
+            +2.66. The best average score across all conditions was 47.26%,
+            using the classical model with scalp-only calibration.
+          </p>
+          <details>
+            <summary>What happened to the original training idea?</summary>
+            <p>
+              An earlier experiment used eye signals to choose which recordings
+              the model compared during training. It fell short of its target.
+              The gain above came from using the eye recording to correct the
+              input signal.
+            </p>
+          </details>
+        </div>
+        <aside class="next">
+          <p class="source">Independent follow-up · OpenBMI</p>
+          <h2>Will it work for another group?</h2>
+          <p>
+            The follow-up tests scalp-only calibration in 54 people imagining
+            left- or right-hand movements. It asks whether a returning user can
+            benefit without wearing eye electrodes.
+          </p>
+          <!-- openbmi-result:start -->
+<p class="status">Across 54 people, scalp-only calibration changed next-day balanced accuracy by +0.89 percentage points (95% confidence interval -0.33 to +2.10). 28 people improved.</p>
+<a href="./openbmi_gain.png">View the participant results figure</a>
+<!-- openbmi-result:end -->
+        </aside>
+      </section>
+      <footer>
+        <a href="https://github.com/Monazarei95">Mona</a>
+        <span>Study materials</span>
+        <a href="https://www.bbci.de/competition/iv/desc_2a.pdf"
+          >BCI IV 2a dataset guide</a
+        >
+        <a href="https://gigadb.org/dataset/100542">OpenBMI dataset</a>
+        <a id="paper" hidden>Paper draft</a
+        ><a id="history" hidden>Experiment log</a>
+      </footer>
+    </main>
+  </body>
+</html>
