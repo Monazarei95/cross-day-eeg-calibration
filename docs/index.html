@@ -21,7 +21,7 @@
         >
         <nav aria-label="Study navigation">
           <a href="#experiment">Experiment</a><a href="#results">Results</a
-          ><a href="#follow-up">Follow-up</a>
+          ><a href="#hands">Hands only</a><a href="#follow-up">Follow-up</a>
         </nav>
       </div>
     </header>
@@ -156,6 +156,38 @@
             </button>
           </details>
         </div>
+      </section>
+      <section id="hands" class="section">
+        <h2>What if we compare only left and right hands?</h2>
+        <p class="section-intro">
+          We trained new two-choice classifiers and scored only the 144 hand
+          trials from each person’s second day. Guessing would average 50%.
+          This analysis was planned after the four-choice results were known,
+          so it is exploratory.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption>Average balanced accuracy across all nine people</caption>
+            <thead>
+              <tr><th scope="col">First-day labels per hand</th><th scope="col">Model</th>
+                <th scope="col">Uncorrected</th><th scope="col">Eye correction</th>
+                <th scope="col">Scalp PCA</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>10</td><td>Self-supervised</td><td>57.13%</td><td>61.39%</td><td>60.93%</td></tr>
+              <tr><td>10</td><td>Classical</td><td>63.01%</td><td>64.58%</td><td>64.88%</td></tr>
+              <tr><td>72</td><td>Self-supervised</td><td>64.81%</td><td>66.05%</td><td>67.28%</td></tr>
+              <tr><td>72</td><td>Classical</td><td>66.36%</td><td>67.82%</td><td><strong>69.37%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-intro">
+          The best average stayed below 80%. The classical model remained
+          stronger. The hard eye correction retained 11.26% of measured
+          8–30 Hz signal energy. That energy includes both brain activity and
+          artifacts, so we cannot tell how much neural information it removed.
+          <a href="https://github.com/Monazarei95/cross-day-eeg-calibration/blob/main/hands_results.md">Read the full hand-only analysis</a>.
+        </p>
       </section>
       <section class="section bottom" id="follow-up">
         <div>

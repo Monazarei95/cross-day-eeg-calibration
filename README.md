@@ -4,7 +4,7 @@
 
 Can an eye-movement recording collected on the first day help a computer decode imagined movement on another day? This project evaluates that question using a frozen self-supervised EEG encoder, a classical covariance decoder, and matched calibration controls.
 
-[Interactive dashboard](https://monazarei95.github.io/cross-day-eeg-calibration/) · [Paper draft](cross_day_paper.md) · [Experiment log](EXPERIMENT_LOG.md) · [Published results](results/)
+[Interactive dashboard](https://monazarei95.github.io/cross-day-eeg-calibration/) · [Paper draft](cross_day_paper.md) · [Hand-only analysis](hands_results.md) · [Experiment log](EXPERIMENT_LOG.md) · [Published results](results/)
 
 ## Main finding
 
@@ -20,6 +20,17 @@ Each score averages five matched label draws within each participant and then we
 ![Next-day changes for each participant](cross_day_gain.png)
 
 The result supports transferring a first-day calibration transform to a later recording. The extra benefit of dedicated eye electrodes over scalp-only calibration remains uncertain, with a gain of 1.21 points and a 95% interval of −0.24 to +2.66. The classical decoder with scalp-only calibration achieved the highest average accuracy.
+
+## Left/right-hand analysis
+
+A later exploratory analysis fitted new binary classifiers using only left- and right-hand trials. The same second-day session supplied 144 hand trials per participant. Because the four-class labels had already been inspected, this is not a new blinded confirmation.
+
+| First-day labels per hand class | Frozen encoder, best condition | Classical decoder, best condition |
+|---|---:|---:|
+| 10 | 61.39% eye projection | 64.88% scalp PCA |
+| 72 | 67.28% scalp PCA | **69.37% scalp PCA** |
+
+The eye projection removed three of 22 spatial directions and retained 11.26% of measured 8–30 Hz signal energy on the second-day task windows. That energy includes artifacts, so its neural fraction is unknown. C3/C4 left-right power-contrast direction was unchanged for seven of nine people in each of the mu and beta bands. The current results do not establish that useful brain signal is fully preserved, or reach an 80% average. [Methods, all scores, and caveats](hands_results.md)
 
 ## Study design
 
@@ -40,6 +51,7 @@ The signal window is 1.75–3.75 seconds after cue onset in the 8–30 Hz band. 
 | Equal-rank random-projection control | Complete | Calibration beat both controls in all nine classical-decoder participants |
 | Locked next-day BCI IV 2a evaluation | Complete and independently checked | Primary gain of 4.24 points |
 | Independent OpenBMI extension | Complete and independently checked | +0.89 points versus raw EEG |
+| Exploratory left/right extension | Complete and independently checked | Best nine-person mean 69.37%; preservation unresolved |
 
 Independent OpenBMI evaluation completed for all 54 participants. The frozen encoder reached 54.20% on raw EEG and 55.08% after scalp-only calibration. The paired gain was +0.89 points (95% CI -0.33 to +2.10), with 28 people improving. Official labels were recovered from files matching the frozen source hashes. An independent pass verified participant accuracies and both paired intervals. [Full evaluation](openbmi_results.md)
 
@@ -55,7 +67,7 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-Versions are pinned in [pyproject.toml](pyproject.toml) and [constraints-pilot.txt](constraints-pilot.txt). Seventeen automated tests cover the protocol, calibration, sampling, logging, reporting, and read-error handling. Floating-point results can vary across platforms and numerical libraries.
+Versions are pinned in [pyproject.toml](pyproject.toml) and [constraints-pilot.txt](constraints-pilot.txt). Eighteen automated tests cover the protocol, calibration, sampling, logging, reporting, and read-error handling. Floating-point results can vary across platforms and numerical libraries.
 
 ## Data preparation
 
@@ -97,6 +109,14 @@ Regenerate the figures and dashboard data.
 .\.venv\Scripts\python.exe scripts/export_dashboard.py runs/cross_day_v1_scores
 ```
 
+Reproduce the exploratory hand-only analysis from the saved encoders and first-day projections:
+
+```powershell
+.\.venv\Scripts\python.exe -m ocular_mi.hands predict --data BCICIV_2a --previous results/cross_day_v1 --output runs/hands_v1
+.\.venv\Scripts\python.exe -m ocular_mi.hands score --predictions runs/hands_v1 --labels BCICIV_2a/labels --output runs/hands_v1_scores
+.\.venv\Scripts\python.exe scripts/verify_hands.py --predictions runs/hands_v1 --labels BCICIV_2a/labels --scores runs/hands_v1_scores
+```
+
 For a quick inspection with bundled scores, substitute `results/cross_day_v1_scores` in the plotting and dashboard commands. The [published prediction files](results/cross_day_v1/) support rescoring against independently obtained official labels. Use a fresh output directory for each run.
 
 ## Reproduce development experiments
@@ -125,6 +145,7 @@ The projection configuration pins the expected encoder checkpoint hash. Fresh pr
 | `docs/` | Interactive GitHub Pages dashboard |
 | `cross_day_paper.md` | Paper draft and interpretation |
 | `EXPERIMENT_LOG.md` | Experimental decisions, corrections, and execution history |
+| `hands_results.md` | Exploratory hand-only scores and signal-preservation checks |
 
 Recorded runs include environment manifests, input digests, executable source snapshots, event logs, and frozen predictions. The [published inventory](results/inventory.json) covers the bundled scientific outputs. Development revision identifiers in the experiment log refer to the original local research records. The public repository begins with one release commit.
 

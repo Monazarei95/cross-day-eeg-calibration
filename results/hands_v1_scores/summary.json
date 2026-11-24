@@ -1,0 +1,127 @@
+{
+  "status": "exploratory_after_prior_four_class_scoring",
+  "participants": 9,
+  "hand_test_trials_per_participant": 144,
+  "results": {
+    "10": {
+      "frozen_ssl": {
+        "mean_accuracy": {
+          "raw": 0.5712962962962963,
+          "ocular": 0.6138888888888888,
+          "pca": 0.6092592592592593
+        },
+        "paired_differences": {
+          "ocular_minus_raw": {
+            "mean": 0.0425925925925926,
+            "ci95": [
+              0.014251024663642791,
+              0.0709341605215424
+            ],
+            "improved": 7
+          },
+          "ocular_minus_pca": {
+            "mean": 0.004629629629629638,
+            "ci95": [
+              -0.023827321741734214,
+              0.033086581000993494
+            ],
+            "improved": 6
+          }
+        }
+      },
+      "classical": {
+        "mean_accuracy": {
+          "raw": 0.6300925925925926,
+          "ocular": 0.6458333333333334,
+          "pca": 0.6487654320987655
+        },
+        "paired_differences": {
+          "ocular_minus_raw": {
+            "mean": 0.01574074074074073,
+            "ci95": [
+              -0.01025140370999247,
+              0.04173288519147393
+            ],
+            "improved": 5
+          },
+          "ocular_minus_pca": {
+            "mean": -0.002932098765432082,
+            "ci95": [
+              -0.019891774564721496,
+              0.014027577033857331
+            ],
+            "improved": 6
+          }
+        }
+      }
+    },
+    "72": {
+      "frozen_ssl": {
+        "mean_accuracy": {
+          "raw": 0.6481481481481481,
+          "ocular": 0.6604938271604939,
+          "pca": 0.6728395061728395
+        },
+        "paired_differences": {
+          "ocular_minus_raw": {
+            "mean": 0.01234567901234571,
+            "ci95": [
+              -0.025378511397241583,
+              0.050069869421933005
+            ],
+            "improved": 7
+          },
+          "ocular_minus_pca": {
+            "mean": -0.012345679012345647,
+            "ci95": [
+              -0.04969029832051776,
+              0.024998940295826468
+            ],
+            "improved": 5
+          }
+        }
+      },
+      "classical": {
+        "mean_accuracy": {
+          "raw": 0.6635802469135803,
+          "ocular": 0.6782407407407408,
+          "pca": 0.6936728395061729
+        },
+        "paired_differences": {
+          "ocular_minus_raw": {
+            "mean": 0.014660493827160496,
+            "ci95": [
+              -0.0092778647268782,
+              0.03859885238119919
+            ],
+            "improved": 6
+          },
+          "ocular_minus_pca": {
+            "mean": -0.0154320987654321,
+            "ci95": [
+              -0.036579125214116784,
+              0.005714927683252583
+            ],
+            "improved": 2
+          }
+        }
+      }
+    }
+  },
+  "signal_diagnostics": {
+    "ocular": {
+      "energy_retained_mean": 0.11257344915693082,
+      "hand_contrast_direction_preserved": {
+        "mu": 7,
+        "beta": 7
+      }
+    },
+    "pca": {
+      "energy_retained_mean": 0.06795851530374335,
+      "hand_contrast_direction_preserved": {
+        "mu": 7,
+        "beta": 7
+      }
+    }
+  }
+}

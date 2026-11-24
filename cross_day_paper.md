@@ -4,7 +4,7 @@
 
 Can a motor-imagery decoder use eye-movement calibration on one day and operate from EEG alone on another? We tested this question on all nine participants in BCI Competition IV 2a. For each participant, we pretrained an encoder on the other eight participants, estimated a spatial projection from the target participant's first-day calibration, and trained a classifier with ten labeled imagery trials per class. We froze predictions for all 2,592 second-day trials before opening the evaluation labels. Eye-calibrated projection increased mean four-class balanced accuracy from 37.04% to 41.29%, a paired gain of 4.24 percentage points (95% CI 1.22 to 7.27). Eight of nine participants improved. Equal-rank random projections averaged 37.25%. Removing the largest EEG principal components from the same calibration block reached 40.08%, leaving the incremental benefit of eye electrodes uncertain. A classical covariance decoder with the principal-component control achieved the highest mean accuracy, 47.26%. The results support reusing a first-day calibration transform with a frozen encoder under a small label budget.
 
-Independent OpenBMI evaluation completed for all 54 participants. The frozen encoder reached 54.20% on raw EEG and 55.08% after scalp-only calibration. The paired gain was +0.89 points (95% CI -0.33 to +2.10), with 28 people improving. Official labels were recovered from files matching the frozen source hashes. An independent pass verified participant accuracies and both paired intervals.
+Independent OpenBMI evaluation completed for all 54 participants. The frozen encoder reached 54.20% on raw EEG and 55.08% after scalp-only calibration. The paired gain was +0.89 points (95% CI -0.33 to +2.10), with 28 people improving. Official labels were recovered from files matching the frozen source hashes. An independent pass verified participant accuracies and both paired intervals. A subsequent exploratory left/right-only analysis on BCI IV 2a reached 61.39% with the eye-projected frozen encoder and ten first-day labels per class. Its highest mean was 69.37% with a classical decoder and all 72 first-day hand labels per class. The hard eye projection retained 11.26% of measured 8–30 Hz energy, which does not establish preservation of neural information.
 
 ## Research question
 
@@ -42,6 +42,12 @@ For the classical decoder, calibration improved accuracy over raw EEG by 2.95 po
 ![Paired eye-calibrated minus control differences for both decoders](cross_day_controls.png)
 
 *Figure 2. Points show the mean within-person difference over all nine participants. Bars show paired 95% t intervals. Positive values favor the eye-calibrated input. Frozen SSL versus raw EEG was the primary comparison. The other five intervals are descriptive.*
+
+## Exploratory left/right extension
+
+We refitted binary classifiers using only left- and right-hand first-day labels and scored only the 144 corresponding second-day trials per participant. The encoders and projections were unchanged. With ten labels per class and five matched draws, the frozen encoder improved from 57.13% raw to 61.39% eye-projected balanced accuracy, while the classical decoder reached 64.88% with scalp-only PCA. With all 72 first-day trials per hand class, the best mean was 69.37% for classical scalp PCA; the frozen encoder reached 67.28% with scalp PCA. The binary analysis does not reach an 80% mean or reverse the classical advantage. Because the four-class official labels had been seen before this analysis was planned, these results are exploratory. [Full binary report](hands_results.md)
+
+The eye projection removes three spatial directions and retained only 11.26% of measured 8–30 Hz energy on the second-day task windows. This includes artifacts and brain signal. The sign of the C3/C4 left-right power contrast remained the same for seven of nine participants in each of the mu and beta bands, but this limited check cannot establish that neural information was preserved. The present method should not be described as information-preserving.
 
 ## Interpretation and limitations
 

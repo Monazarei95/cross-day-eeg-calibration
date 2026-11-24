@@ -1,0 +1,28 @@
+{
+  "status": "exploratory_after_four_class_label_access",
+  "classes": {
+    "left_hand": 1,
+    "right_hand": 2
+  },
+  "training_day": 1,
+  "evaluation_day": 2,
+  "labels_per_class": [
+    10,
+    72
+  ],
+  "draws": {
+    "10": 5,
+    "72": 1
+  },
+  "encoder": "unchanged_leave_one_participant_out_day_one_checkpoint",
+  "projections": [
+    "raw",
+    "ocular",
+    "pca"
+  ],
+  "methods": [
+    "frozen_ssl",
+    "classical"
+  ],
+  "test_predictions_saved_before_hand_labels_opened_in_this_run": true
+}
